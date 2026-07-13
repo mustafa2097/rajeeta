@@ -1,0 +1,63 @@
+{
+  "name": "home-share-desktop",
+  "version": "1.0.0",
+  "description": "Home Share — share files between phone and laptop",
+  "main": "main.js",
+  "author": "Home Share",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win",
+    "build": "electron-builder --win"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^33.3.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.homeshare.desktop",
+    "productName": "Home Share",
+    "copyright": "Copyright © 2026",
+    "directories": {
+      "output": "out"
+    },
+    "files": [
+      "main.js",
+      "icon.png"
+    ],
+    "extraResources": [
+      {
+        "from": "../server/dist",
+        "to": "server/dist"
+      },
+      {
+        "from": "../server/node_modules",
+        "to": "server/node_modules"
+      },
+      {
+        "from": "../web/dist",
+        "to": "web/dist"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "icon.png",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Home Share"
+    },
+    "portable": {
+      "artifactName": "HomeShare-Portable.exe"
+    }
+  }
+}

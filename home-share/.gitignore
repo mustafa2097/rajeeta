@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+dist/
+uploads/
+data/
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Expo
+.expo/
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Build
+web/dist/
+desktop/out/
+desktop/release/
+server/dist/

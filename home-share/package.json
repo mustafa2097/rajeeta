@@ -1,0 +1,23 @@
+{
+  "name": "home-share",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Share files and text between phone and laptop over home Wi-Fi",
+  "scripts": {
+    "install:all": "npm install --prefix server && npm install --prefix web && npm install --prefix mobile && npm install --prefix desktop",
+    "dev": "concurrently -n server,web -c blue,green \"npm run dev --prefix server\" \"npm run dev --prefix web\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:web": "npm run dev --prefix web",
+    "dev:mobile": "npm run start --prefix mobile",
+    "dev:desktop": "npm run build:web && npm run build:server && npm run start --prefix desktop",
+    "build:web": "npm run build --prefix web",
+    "build:server": "npm run build --prefix server",
+    "build:desktop": "npm run build:web && npm run build:server && npm run build:win --prefix desktop",
+    "build:apk": "npm run build:apk --prefix mobile",
+    "build:all": "npm run build:desktop && npm run build:apk",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
