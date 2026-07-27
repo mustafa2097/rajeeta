@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: rajeeta-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: rajeeta
+      POSTGRES_PASSWORD: rajeeta_secret
+      POSTGRES_DB: rajeeta
+    volumes:
+      - rajeeta_pg:/var/lib/postgresql/data
+
+volumes:
+  rajeeta_pg:

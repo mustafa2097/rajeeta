@@ -1,0 +1,268 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  EXPIRED
+  NONE
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+enum WalletTransactionType {
+  CONSULTATION
+  CASH_CONSULTATION
+  ELECTRONIC_CONSULTATION
+  DISCOUNT_CREDIT
+  WITHDRAWAL
+  SUBSCRIPTION
+}
+
+enum PaymentMethod {
+  CASH
+  ELECTRONIC
+}
+
+enum ConsultationPaymentStatus {
+  NOT_REQUIRED
+  PENDING
+  PAID
+  FAILED
+}
+
+enum PaymentType {
+  SUBSCRIPTION
+  WITHDRAWAL
+  CONSULTATION
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  phone        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  patientProfile PatientProfile?
+  doctorProfile  DoctorProfile?
+  adminProfile   AdminProfile?
+  payments       Payment[]
+  auditLogs      AuditLog[]
+  discountCodes  DiscountCode[] @relation("DiscountCodeCreator")
+}
+
+model PatientProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  fullName        String
+  age             Int
+  bloodType       String?
+  chronicDiseases String[] @default([])
+  labResults      Json?
+
+  user                   User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments           Appointment[]
+  prescriptions          Prescription[]
+  handwrittenPrescriptions HandwrittenPrescription[]
+}
+
+model DoctorProfile {
+  id                 String             @id @default(cuid())
+  userId             String             @unique
+  fullName           String
+  age                Int
+  specialty          String
+  rating             Float              @default(0)
+  clinicName         String?
+  clinicAddress      String?
+  clinicFloor        String?
+  consultationFee    Int
+  subscriptionStatus SubscriptionStatus @default(NONE)
+  trialEndsAt        DateTime?
+  subscriptionEndsAt DateTime?
+
+  user                     User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments             Appointment[]
+  prescriptions            Prescription[]
+  wallet                   Wallet?
+  availabilitySlots        AvailabilitySlot[]
+  handwrittenPrescriptions HandwrittenPrescription[]
+}
+
+model AdminProfile {
+  id       String @id @default(cuid())
+  userId   String @unique
+  fullName String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Appointment {
+  id               String            @id @default(cuid())
+  patientId        String
+  doctorId         String
+  scheduledAt      DateTime
+  status           AppointmentStatus @default(PENDING)
+  rejectionMessage String?
+  consultationFee  Int
+  discountAmount   Int               @default(0)
+  amountPaid       Int               @default(0)
+  paymentMethod              PaymentMethod             @default(CASH)
+  consultationPaymentStatus  ConsultationPaymentStatus @default(NOT_REQUIRED)
+  discountCodeId   String?
+  notes            String?
+  patientCondition String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  patient      PatientProfile     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor       DoctorProfile      @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  discountCode DiscountCode?      @relation(fields: [discountCodeId], references: [id])
+  prescription Prescription?
+  walletTransactions WalletTransaction[]
+  payment              Payment?
+}
+
+model Prescription {
+  id                   String   @id @default(cuid())
+  appointmentId        String   @unique
+  patientId            String
+  doctorId             String
+  handwrittenImageUrl  String?
+  notes                String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  appointment Appointment  @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  patient     PatientProfile @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor      DoctorProfile  @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  medications Medication[]
+}
+
+model Medication {
+  id             String  @id @default(cuid())
+  prescriptionId String
+  name           String
+  dosage         String
+  instructions   String?
+  isRestricted   Boolean @default(false)
+
+  prescription Prescription @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+}
+
+model Wallet {
+  id       String @id @default(cuid())
+  doctorId String @unique
+  balance  Int    @default(0)
+
+  doctor       DoctorProfile       @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  transactions WalletTransaction[]
+}
+
+model WalletTransaction {
+  id             String                @id @default(cuid())
+  walletId       String
+  amount         Int
+  type           WalletTransactionType
+  description    String?
+  appointmentId  String?
+  discountCodeId String?
+  createdAt      DateTime              @default(now())
+
+  wallet       Wallet        @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  appointment  Appointment?  @relation(fields: [appointmentId], references: [id])
+  discountCode DiscountCode? @relation(fields: [discountCodeId], references: [id])
+}
+
+model DiscountCode {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  percentage Int
+  isActive   Boolean  @default(true)
+  createdById String
+  usageCount Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  createdBy          User                @relation("DiscountCodeCreator", fields: [createdById], references: [id])
+  appointments       Appointment[]
+  walletTransactions WalletTransaction[]
+}
+
+model AvailabilitySlot {
+  id          String  @id @default(cuid())
+  doctorId    String
+  dayOfWeek   Int
+  startTime   String
+  endTime     String
+  isAvailable Boolean @default(true)
+
+  doctor DoctorProfile @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@unique([doctorId, dayOfWeek, startTime, endTime])
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  userId        String
+  appointmentId String?       @unique
+  amount        Int
+  type          PaymentType
+  status        PaymentStatus @default(PENDING)
+  reference     String?
+  createdAt     DateTime      @default(now())
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointment Appointment? @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model HandwrittenPrescription {
+  id        String   @id @default(cuid())
+  patientId String
+  doctorId  String
+  imageUrl  String
+  notes     String?
+  createdAt DateTime @default(now())
+
+  patient PatientProfile @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor  DoctorProfile  @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+}

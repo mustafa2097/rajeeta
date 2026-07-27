@@ -1,0 +1,44 @@
+{
+  "name": "rajeeta",
+  "private": true,
+  "workspaces": [
+    "apps/api",
+    "apps/web",
+    "apps/web-admin",
+    "apps/patient-expo"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w apps/api\" \"npm run dev -w apps/web\" \"npm run dev -w apps/web-admin\"",
+    "dev:local": "powershell -ExecutionPolicy Bypass -File scripts/dev-local.ps1",
+    "dev:lan": "powershell -ExecutionPolicy Bypass -File scripts/dev-lan.ps1",
+    "dev:all": "powershell -ExecutionPolicy Bypass -File scripts/dev-lan-all.ps1",
+    "dev:expo": "npm run start:lan -w apps/patient-expo",
+    "dev:api": "npm run dev -w apps/api",
+    "dev:doctor": "npm run dev -w apps/web",
+    "dev:admin": "npm run dev -w apps/web-admin",
+    "dev:web": "npm run dev -w apps/web",
+    "dev:patient": "npm run start:lan -w apps/patient-expo",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "npm run prisma:migrate -w apps/api",
+    "db:seed": "npm run prisma:seed -w apps/api",
+    "setup": "npm install && npm run db:up && timeout /t 5 && npm run db:migrate && npm run db:seed"
+  },
+  "dependencies": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "overrides": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "allowScripts": {
+    "@prisma/client@6.19.3": true,
+    "prisma@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "bcrypt@5.1.1": true
+  }
+}

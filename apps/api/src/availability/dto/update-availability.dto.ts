@@ -1,0 +1,40 @@
+import { Type } from 'class-transformer';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+  Matches,
+  Max,
+  Min,
+  ValidateNested,
+} from 'class-validator';
+
+export class AvailabilitySlotDto {
+  @IsInt()
+  @Min(0)
+  @Max(6)
+  dayOfWeek: number;
+
+  @IsString()
+  @Matches(/^\d{2}:\d{2}$/)
+  startTime: string;
+
+  @IsString()
+  @Matches(/^\d{2}:\d{2}$/)
+  endTime: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isAvailable?: boolean;
+}
+
+export class UpdateAvailabilityDto {
+  @IsArray()
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => AvailabilitySlotDto)
+  slots: AvailabilitySlotDto[];
+}

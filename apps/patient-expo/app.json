@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "راجيتة",
+    "slug": "rajeeta-patient",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "rajeeta",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.rajeeta.patient",
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "ar",
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.rajeeta.patient",
+      "adaptiveIcon": {
+        "backgroundColor": "#F0FDFA",
+        "foregroundImage": "./assets/images/icon.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/logo_icon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F0FDFA",
+          "image": "./assets/images/logo_icon.png",
+          "imageWidth": 150
+        }
+      ],
+      "expo-secure-store",
+      "expo-asset",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

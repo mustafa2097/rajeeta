@@ -1,0 +1,300 @@
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeUp { animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.delay1 { animation-delay: 0.06s; }
+.delay2 { animation-delay: 0.12s; }
+.delay3 { animation-delay: 0.18s; }
+
+.pageHead {
+  margin-bottom: 1.5rem;
+}
+
+.pageTitle {
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0b2a38;
+  margin-bottom: 0.35rem;
+}
+
+.pageLead {
+  color: #5a7a8a;
+  font-size: 0.95rem;
+}
+
+.hero {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 220px;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 1.75rem;
+  background: linear-gradient(135deg, #00415c 0%, #006994 55%, #00a0d4 100%);
+  animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.heroOverlay {
+  width: 100%;
+  padding: 1.75rem 1.85rem;
+  color: #fff;
+}
+
+.heroEyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  margin-bottom: 0.35rem;
+}
+
+.heroTitle {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.35rem;
+}
+
+.heroLead {
+  opacity: 0.92;
+  max-width: 36rem;
+  line-height: 1.6;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.statTile {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid rgba(0, 105, 148, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 105, 148, 0.06);
+  animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.statTile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 105, 148, 0.1);
+}
+
+.statLabel {
+  color: #5a7a8a;
+  font-size: 0.86rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.statValue {
+  font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0b2a38;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid rgba(0, 105, 148, 0.12);
+  border-radius: 16px;
+  padding: 0.65rem 1rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 18px rgba(0, 105, 148, 0.05);
+  animation: fadeSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.searchIcon {
+  width: 20px;
+  height: 20px;
+  color: #006994;
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.95rem;
+  color: #0b2a38;
+}
+
+.searchInput::placeholder { color: #8aa4b0; }
+
+.searchCount {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #006994;
+  background: #e6f4f9;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  white-space: nowrap;
+}
+
+.profileGrid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.profileCard {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 1.15rem 1.25rem;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.03);
+  animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.profileCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 105, 148, 0.1);
+}
+
+.profileTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00a0d4, #006994);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 105, 148, 0.25);
+}
+
+.profileMain { min-width: 0; flex: 1; }
+
+.profileName {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0b2a38;
+  margin-bottom: 0.15rem;
+}
+
+.profileMeta {
+  font-size: 0.86rem;
+  color: #5a7a8a;
+  line-height: 1.5;
+}
+
+.profileDetails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 105, 148, 0.08);
+}
+
+.detailItem {
+  min-width: 0;
+}
+
+.detailLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #8aa4b0;
+  margin-bottom: 0.15rem;
+}
+
+.detailValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0b2a38;
+  word-break: break-word;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.pillActive { background: #e6f4f9; color: #006994; }
+.pillTrial { background: #fff7ed; color: #c2410c; }
+.pillExpired { background: #fef2f2; color: #b91c1c; }
+.pillNone { background: #f3f4f6; color: #6b7280; }
+
+.panel {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.panelPad { padding: 1.25rem 1.35rem; }
+
+.sectionTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0b2a38;
+  margin-bottom: 0.85rem;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.listItem:last-child { border-bottom: none; }
+
+.empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #8aa4b0;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .statsRow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .profileDetails { grid-template-columns: 1fr; }
+  .grid2 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .statsRow { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fadeUp, .statTile, .profileCard, .panel, .hero, .searchBar {
+    animation: none !important;
+  }
+}
