@@ -10,11 +10,13 @@ RUN apt-get update \
 COPY apps/api/package.json ./
 RUN npm install
 
-COPY apps/api/tsconfig.json apps/api/nest-cli.json ./
+COPY apps/api/tsconfig.json apps/api/tsconfig.build.json apps/api/nest-cli.json ./
 COPY apps/api/prisma ./prisma
 COPY apps/api/src ./src
 
-RUN npx prisma generate && npm run build
+RUN npx prisma generate \
+  && npm run build \
+  && test -f dist/main.js
 
 FROM node:22-bookworm-slim AS runner
 
@@ -34,7 +36,8 @@ RUN npm install --omit=dev && npx prisma generate
 
 COPY --from=builder /app/dist ./dist
 
-RUN mkdir -p uploads
+RUN mkdir -p uploads \
+  && test -f dist/main.js
 
 EXPOSE 3001
 
