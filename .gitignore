@@ -22,4 +22,6 @@ apps/patient-expo/.env
 .cursor/
 rajeeta-patient.apk
 *.apk
+scripts/.cloud-db.env
+scripts/.cloud-*.env
 
